@@ -1,0 +1,1596 @@
+<div style="padding: 20px; font-family: 'Segoe UI', Arial, sans-serif;">
+    <style>
+        /* Основные цвета */
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --primary-light: #eef2ff;
+            --secondary: #06d6a0;
+            --danger: #ef476f;
+            --warning: #ffd166;
+            --dark: #2b2d42;
+            --gray: #6c757d;
+            --light: #636363;
+            --border: #dee2e6;
+            --card-bg: #686868;
+            --text: #212529;
+            --text-muted: #6c757d;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Адаптация для темной темы */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #4895ef;
+                --primary-dark: #3f7ed9;
+                --primary-light: #1e2f4a;
+                --secondary: #06d6a0;
+                --danger: #f25f5c;
+                --warning: #ffd166;
+                --dark: #121420;
+                --gray: #9ca3af;
+                --light: #1e1e2e;
+                --border: #2d3748;
+                --card-bg: #2a2a3a;
+                --text: #e5e7eb;
+                --text-muted: #9ca3af;
+                --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+                --shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        /* Основные стили */
+        .bm-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Табы */
+        .bm-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding: 4px;
+            background: var(--light);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        .bm-tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: transparent;
+            flex: 1;
+            text-align: center;
+            border: none;
+        }
+        .bm-tab:hover {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+        .bm-tab.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+        .bm-tab i {
+            margin-right: 8px;
+        }
+
+        /* Карточки */
+        .bm-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        .bm-card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+        .bm-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+        }
+        .bm-card-header h3 {
+            margin: 0;
+            color: var(--text);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        .bm-card-header h3 i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        /* Статистика */
+        .bm-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        .bm-stat-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
+            border: none;
+        }
+        .bm-stat-card:hover {
+            transform: translateY(-4px);
+        }
+        .bm-stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .bm-stat-label {
+            font-size: 14px;
+            opacity: 0.95;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        /* Кнопки */
+        .bm-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        .bm-btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .bm-btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        .bm-btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+        .bm-btn-secondary:hover {
+            filter: brightness(0.9);
+            transform: translateY(-2px);
+        }
+        .bm-btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        .bm-btn-danger:hover {
+            filter: brightness(0.9);
+            transform: translateY(-2px);
+        }
+        .bm-btn-outline {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text);
+        }
+        .bm-btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Таблицы */
+        .bm-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .bm-table th {
+            background: var(--light);
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text);
+            border-bottom: 2px solid var(--primary);
+        }
+        .bm-table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+        .bm-table tr:hover {
+            background: var(--light);
+        }
+        .bm-table .badge {
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .bm-table .badge-success {
+            background: var(--secondary);
+            color: white;
+        }
+        .bm-table .badge-warning {
+            background: var(--warning);
+            color: var(--dark);
+        }
+        .bm-table .badge-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Формы */
+        .bm-form-group {
+            margin-bottom: 20px;
+        }
+        .bm-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .bm-form-group input, 
+        .bm-form-group select, 
+        .bm-form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .bm-form-group input:focus, 
+        .bm-form-group select:focus, 
+        .bm-form-group textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        .bm-form-group small {
+            display: block;
+            margin-top: 4px;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        /* Модальные окна */
+        .bm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            animation: fadeIn 0.3s;
+        }
+        .bm-modal-content {
+            background: var(--card-bg);
+            width: 90%;
+            max-width: 550px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-hover);
+            border: 1px solid var(--border);
+            animation: slideUp 0.3s;
+        }
+        .bm-modal-content h3 {
+            margin-top: 0;
+            margin-bottom: 24px;
+            color: var(--primary);
+            font-size: 1.6rem;
+        }
+
+        /* Статусы */
+        .bm-status {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+        .bm-status-success {
+            background: var(--secondary);
+            color: white;
+        }
+        .bm-status-warning {
+            background: var(--warning);
+            color: var(--dark);
+        }
+        .bm-status-danger {
+            background: var(--danger);
+            color: white;
+        }
+        .bm-status-info {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Загрузка */
+        .bm-loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-muted);
+        }
+        .bm-loading-spinner {
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Пустые состояния */
+        .bm-empty {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-muted);
+        }
+        .bm-empty i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        /* Инструкция */
+        .bm-instruction {
+            margin-top: 24px;
+            padding: 20px;
+            background: var(--primary-light);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+        .bm-instruction h4 {
+            margin-top: 0;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .bm-instruction ol {
+            margin: 0;
+            padding-left: 20px;
+            color: var(--text);
+        }
+        .bm-instruction li {
+            margin: 8px 0;
+        }
+
+        /* Чекбокс */
+        .bm-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .bm-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        /* Бадж приоритета */
+        .priority-high {
+            background: var(--danger);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .priority-medium {
+            background: var(--warning);
+            color: var(--dark);
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .priority-low {
+            background: var(--secondary);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+    </style>
+
+    <div class="bm-container">
+        <!-- Сообщение об авторизации -->
+        <div id="bm-auth-required" style="display: none;">
+            <div class="bm-card" style="text-align: center; padding: 60px;">
+                <i style="font-size: 64px; color: var(--danger); margin-bottom: 20px;">🔒</i>
+                <h2 style="color: var(--text);">Требуется авторизация</h2>
+                <p style="color: var(--text-muted); margin: 20px 0;">Для работы с плагином необходимо войти в систему</p>
+                <button class="bm-btn bm-btn-primary" onclick="window.location.href='/login'" style="padding: 12px 40px;">Войти</button>
+            </div>
+        </div>
+
+        <!-- Основной контент -->
+        <div id="bm-content-wrapper" style="display: none;">
+            <!-- Табы -->
+            <div class="bm-tabs">
+                <button class="bm-tab active" onclick="switchTab('dashboard')">
+                    <i>📊</i> Дашборд
+                </button>
+                <button class="bm-tab" onclick="switchTab('services')">
+                    <i>📋</i> Услуги
+                </button>
+                <button class="bm-tab" onclick="switchTab('clients')">
+                    <i>👥</i> Клиенты
+                </button>
+                <button class="bm-tab" onclick="switchTab('bookings')">
+                    <i>📅</i> Бронирования
+                </button>
+                <button class="bm-tab" onclick="switchTab('schedule')">
+                    <i>⚙️</i> Настройки
+                </button>
+            </div>
+
+            <!-- Дашборд -->
+            <div id="tab-dashboard" class="bm-content active">
+                <div id="dashboard-loading">
+                    <div class="bm-loading">
+                        <div class="bm-loading-spinner"></div>
+                        <p>Загрузка статистики...</p>
+                    </div>
+                </div>
+                <div id="dashboard-content" style="display: none;"></div>
+            </div>
+
+            <!-- Услуги -->
+            <div id="tab-services" class="bm-content">
+                <div class="bm-card">
+                    <div class="bm-card-header">
+                        <h3><i>📋</i> Услуги</h3>
+                        <button class="bm-btn bm-btn-primary" onclick="showServiceModal()">
+                            <i>➕</i> Добавить услугу
+                        </button>
+                    </div>
+                    <div id="services-list" class="bm-loading">Загрузка услуг...</div>
+                </div>
+            </div>
+
+            <!-- Клиенты -->
+            <div id="tab-clients" class="bm-content">
+                <div class="bm-card">
+                    <div class="bm-card-header">
+                        <h3><i>👥</i> Клиенты</h3>
+                        <button class="bm-btn bm-btn-primary" onclick="showClientModal()">
+                            <i>➕</i> Добавить клиента
+                        </button>
+                    </div>
+                    <div id="clients-list" class="bm-loading">Загрузка клиентов...</div>
+                </div>
+            </div>
+
+            <!-- Бронирования -->
+            <div id="tab-bookings" class="bm-content">
+                <div class="bm-card">
+                    <div class="bm-card-header">
+                        <h3><i>📅</i> Бронирования</h3>
+                        <button class="bm-btn bm-btn-primary" onclick="showBookingModal()">
+                            <i>➕</i> Новое бронирование
+                        </button>
+                    </div>
+                    <div id="bookings-list" class="bm-loading">Загрузка бронирований...</div>
+                </div>
+            </div>
+
+            <!-- Настройки -->
+            <div id="tab-schedule" class="bm-content">
+                <div class="bm-card">
+                    <div class="bm-card-header">
+                        <h3><i>⚙️</i> Профиль</h3>
+                    </div>
+                    <div id="profile-form"></div>
+                </div>
+
+                <div class="bm-card">
+                    <div class="bm-card-header">
+                        <h3><i>📅</i> Расписание работы</h3>
+                    </div>
+                    <div id="schedule-form"></div>
+                </div>
+                
+                <!-- Блок Telegram бота -->
+                <div class="bm-card">
+                    <div class="bm-card-header">
+                        <h3><i>🤖</i> Telegram бот</h3>
+                    </div>
+                    
+                    <div id="bot-status" style="margin-bottom: 20px;"></div>
+                    
+                    <div class="bm-form-group">
+                        <label>Токен бота (от @BotFather)</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="password" id="botToken" placeholder="1234567890:ABCdefGHIjklMNOpqrsTUVwxyz" value="" style="flex: 1;">
+                            <button class="bm-btn bm-btn-outline" onclick="toggleTokenVisibility()" style="width: 50px;">👁️</button>
+                        </div>
+                        <small>Получите токен у @BotFather в Telegram</small>
+                    </div>
+                    
+                    <div class="bm-form-group">
+                        <label>ID администратора (ваш Telegram ID)</label>
+                        <input type="text" id="adminId" placeholder="123456789" value="">
+                        <small>Узнайте свой ID у @userinfobot</small>
+                    </div>
+                    
+                    <div class="bm-form-group">
+                        <label class="bm-checkbox">
+                            <input type="checkbox" id="botEnabled">
+                            <span>Включить бота</span>
+                        </label>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <button class="bm-btn bm-btn-primary" onclick="saveBotSettings()" style="flex: 1;">
+                            <i>💾</i> Сохранить
+                        </button>
+                        <button class="bm-btn bm-btn-secondary" onclick="testBot()" style="flex: 1;">
+                            <i>📱</i> Проверить
+                        </button>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="bm-btn bm-btn-outline" onclick="restartBot()" style="flex: 1;">
+                            <i>🔄</i> Перезапустить
+                        </button>
+                        <button class="bm-btn bm-btn-outline" onclick="clearToken()" style="flex: 1;">
+                            <i>🗑️</i> Очистить токен
+                        </button>
+                    </div>
+                    
+                    <div id="bot-stats" style="margin-top: 30px; padding: 20px; background: var(--light); border-radius: 12px;">
+                        <h4 style="margin-top: 0; color: var(--text);"><i>📊</i> Статистика бота</h4>
+                        <div id="bot-stats-content">Загрузка...</div>
+                    </div>
+                    
+                    <div class="bm-instruction">
+                        <h4><i>📚</i> Инструкция:</h4>
+                        <ol>
+                            <li><strong>Первый запуск:</strong> Введите токен и ID, нажмите "Сохранить"</li>
+                            <li><strong>Проверка:</strong> Нажмите "Проверить" - должно прийти сообщение</li>
+                            <li><strong>Если нужно сменить токен:</strong> Нажмите "Очистить токен", введите новый</li>
+                            <li><strong>Перезапуск:</strong> Если бот не отвечает, нажмите "Перезапустить"</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для услуг -->
+    <div id="serviceModal" class="bm-modal">
+        <div class="bm-modal-content">
+            <h3 id="serviceModalTitle">➕ Добавить услугу</h3>
+            <div class="bm-form-group">
+                <label>Название</label>
+                <input type="text" id="serviceName" placeholder="Например: Стрижка">
+            </div>
+            <div class="bm-form-group">
+                <label>Описание</label>
+                <textarea id="serviceDescription" rows="3" placeholder="Описание услуги"></textarea>
+            </div>
+            <div class="bm-form-group">
+                <label>Цена (₽)</label>
+                <input type="number" id="servicePrice" placeholder="1000">
+            </div>
+            <div class="bm-form-group">
+                <label>Длительность (мин)</label>
+                <input type="number" id="serviceDuration" value="60">
+            </div>
+            <div class="bm-form-group">
+                <label>Категория</label>
+                <select id="serviceCategory">
+                    <option value="">Выберите категорию</option>
+                    <option value="hair">💇 Стрижка</option>
+                    <option value="color">🎨 Окрашивание</option>
+                    <option value="makeup">💄 Макияж</option>
+                    <option value="nails">💅 Маникюр</option>
+                    <option value="other">✨ Другое</option>
+                </select>
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button class="bm-btn bm-btn-outline" onclick="hideModal('serviceModal')">Отмена</button>
+                <button class="bm-btn bm-btn-primary" onclick="saveService()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для клиентов -->
+    <div id="clientModal" class="bm-modal">
+        <div class="bm-modal-content">
+            <h3 id="clientModalTitle">➕ Добавить клиента</h3>
+            <div class="bm-form-group">
+                <label>Имя</label>
+                <input type="text" id="clientName" placeholder="Имя клиента">
+            </div>
+            <div class="bm-form-group">
+                <label>Телефон</label>
+                <input type="text" id="clientPhone" placeholder="+7 (999) 999-99-99">
+            </div>
+            <div class="bm-form-group">
+                <label>Email</label>
+                <input type="email" id="clientEmail" placeholder="client@example.com">
+            </div>
+            <div class="bm-form-group">
+                <label>Дата рождения</label>
+                <input type="date" id="clientBirthDate">
+            </div>
+            <div class="bm-form-group">
+                <label>Заметки</label>
+                <textarea id="clientNotes" rows="3" placeholder="Дополнительная информация"></textarea>
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button class="bm-btn bm-btn-outline" onclick="hideModal('clientModal')">Отмена</button>
+                <button class="bm-btn bm-btn-primary" onclick="saveClient()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для бронирований -->
+    <div id="bookingModal" class="bm-modal">
+        <div class="bm-modal-content">
+            <h3>📅 Новое бронирование</h3>
+            <div class="bm-form-group">
+                <label>Клиент</label>
+                <select id="bookingClient"></select>
+            </div>
+            <div class="bm-form-group">
+                <label>Услуга</label>
+                <select id="bookingService"></select>
+            </div>
+            <div class="bm-form-group">
+                <label>Дата</label>
+                <input type="date" id="bookingDate">
+            </div>
+            <div class="bm-form-group">
+                <label>Время</label>
+                <select id="bookingTime"></select>
+            </div>
+            <div class="bm-form-group">
+                <label>Заметки</label>
+                <textarea id="bookingNotes" rows="3"></textarea>
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button class="bm-btn bm-btn-outline" onclick="hideModal('bookingModal')">Отмена</button>
+                <button class="bm-btn bm-btn-primary" onclick="saveBooking()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // ==================== ПРОВЕРКА АВТОРИЗАЦИИ ====================
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/auth/me');
+                if (response.status === 401) {
+                    document.getElementById('bm-auth-required').style.display = 'block';
+                    document.getElementById('bm-content-wrapper').style.display = 'none';
+                } else {
+                    document.getElementById('bm-auth-required').style.display = 'none';
+                    document.getElementById('bm-content-wrapper').style.display = 'block';
+                    loadDashboard();
+                }
+            } catch (error) {
+                console.error('Auth check error:', error);
+                document.getElementById('bm-auth-required').style.display = 'block';
+                document.getElementById('bm-content-wrapper').style.display = 'none';
+            }
+        }
+
+        // ==================== ПЕРЕМЕННЫЕ ====================
+        let currentServiceId = null;
+        let currentClientId = null;
+        let services = [];
+        let clients = [];
+        let bookings = [];
+        let tokenVisible = false;
+
+        // ==================== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ====================
+        window.switchTab = function(tabName) {
+            document.querySelectorAll('.bm-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.bm-content').forEach(c => c.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            
+            switch(tabName) {
+                case 'dashboard': loadDashboard(); break;
+                case 'services': loadServices(); break;
+                case 'clients': loadClients(); break;
+                case 'bookings': loadBookings(); break;
+                case 'schedule': loadProfile(); loadSchedule(); break;
+            }
+        }
+
+        // ==================== ДАШБОРД ====================
+        async function loadDashboard() {
+            document.getElementById('dashboard-loading').style.display = 'block';
+            document.getElementById('dashboard-content').style.display = 'none';
+            
+            try {
+                const response = await fetch('/api/plugins/beautymaster/stats');
+                if (response.status === 401) {
+                    checkAuth();
+                    return;
+                }
+                const data = await response.json();
+                
+                if (data.success) {
+                    const stats = data.data;
+                    document.getElementById('dashboard-content').innerHTML = `
+                        <div class="bm-stats-grid">
+                            <div class="bm-stat-card">
+                                <div class="bm-stat-value">${stats.total_clients}</div>
+                                <div class="bm-stat-label">Клиентов</div>
+                            </div>
+                            <div class="bm-stat-card">
+                                <div class="bm-stat-value">${stats.total_services}</div>
+                                <div class="bm-stat-label">Услуг</div>
+                            </div>
+                            <div class="bm-stat-card">
+                                <div class="bm-stat-value">${stats.total_bookings}</div>
+                                <div class="bm-stat-label">Всего записей</div>
+                            </div>
+                            <div class="bm-stat-card">
+                                <div class="bm-stat-value">${stats.month_bookings}</div>
+                                <div class="bm-stat-label">За этот месяц</div>
+                            </div>
+                        </div>
+                        <div class="bm-card">
+                            <h4>Популярные услуги</h4>
+                            <table class="bm-table">
+                                <thead>
+                                    <tr><th>Услуга</th><th>Количество</th></tr>
+                                </thead>
+                                <tbody>
+                                    ${stats.popular_services.map(s => `
+                                        <tr><td>${s.name}</td><td>${s.count}</td></tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                    document.getElementById('dashboard-loading').style.display = 'none';
+                    document.getElementById('dashboard-content').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('dashboard-loading').innerHTML = 'Ошибка загрузки';
+            }
+        }
+
+        // ==================== УСЛУГИ ====================
+        async function loadServices() {
+            const container = document.getElementById('services-list');
+            container.innerHTML = 'Загрузка услуг...';
+            
+            try {
+                const response = await fetch('/api/plugins/beautymaster/services');
+                if (response.status === 401) {
+                    checkAuth();
+                    return;
+                }
+                const data = await response.json();
+                
+                if (data.success) {
+                    services = data.data;
+                    if (services.length === 0) {
+                        container.innerHTML = '<p style="color: #666; text-align: center;">Нет услуг. Добавьте первую!</p>';
+                    } else {
+                        container.innerHTML = `
+                            <table class="bm-table">
+                                <thead>
+                                    <tr>
+                                        <th>Название</th>
+                                        <th>Категория</th>
+                                        <th>Цена</th>
+                                        <th>Длительность</th>
+                                        <th>Действия</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${services.map(s => `
+                                        <tr>
+                                            <td>${s.name}</td>
+                                            <td>${s.category || '—'}</td>
+                                            <td>${s.price} ₽</td>
+                                            <td>${s.duration} мин</td>
+                                            <td>
+                                                <button class="bm-btn bm-btn-primary" style="padding: 5px 10px;" onclick="editService(${s.id})">✏️</button>
+                                                <button class="bm-btn bm-btn-danger" style="padding: 5px 10px;" onclick="deleteService(${s.id})">🗑️</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                container.innerHTML = 'Ошибка загрузки';
+            }
+        }
+
+        window.showServiceModal = function(id = null) {
+            currentServiceId = id;
+            document.getElementById('serviceModalTitle').innerText = id ? '✏️ Редактировать услугу' : '➕ Добавить услугу';
+            
+            if (id) {
+                const service = services.find(s => s.id === id);
+                if (service) {
+                    document.getElementById('serviceName').value = service.name;
+                    document.getElementById('serviceDescription').value = service.description || '';
+                    document.getElementById('servicePrice').value = service.price;
+                    document.getElementById('serviceDuration').value = service.duration;
+                    document.getElementById('serviceCategory').value = service.category || '';
+                }
+            } else {
+                document.getElementById('serviceName').value = '';
+                document.getElementById('serviceDescription').value = '';
+                document.getElementById('servicePrice').value = '';
+                document.getElementById('serviceDuration').value = '60';
+                document.getElementById('serviceCategory').value = '';
+            }
+            
+            document.getElementById('serviceModal').style.display = 'block';
+        }
+
+        window.saveService = async function() {
+            const data = {
+                name: document.getElementById('serviceName').value,
+                description: document.getElementById('serviceDescription').value,
+                price: parseFloat(document.getElementById('servicePrice').value),
+                duration: parseInt(document.getElementById('serviceDuration').value),
+                category: document.getElementById('serviceCategory').value
+            };
+            
+            try {
+                const url = currentServiceId 
+                    ? `/api/plugins/beautymaster/services/${currentServiceId}`
+                    : '/api/plugins/beautymaster/services';
+                
+                const response = await fetch(url, {
+                    method: currentServiceId ? 'PUT' : 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    hideModal('serviceModal');
+                    loadServices();
+                } else {
+                    alert('Ошибка сохранения');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ошибка сохранения');
+            }
+        }
+
+        window.deleteService = async function(id) {
+            if (!confirm('Удалить услугу?')) return;
+            
+            try {
+                const response = await fetch(`/api/plugins/beautymaster/services/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    loadServices();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ошибка удаления');
+            }
+        }
+
+        window.editService = function(id) {
+            showServiceModal(id);
+        }
+
+        // ==================== КЛИЕНТЫ ====================
+        async function loadClients() {
+            const container = document.getElementById('clients-list');
+            container.innerHTML = 'Загрузка клиентов...';
+            
+            try {
+                const response = await fetch('/api/plugins/beautymaster/clients');
+                if (response.status === 401) {
+                    checkAuth();
+                    return;
+                }
+                const data = await response.json();
+                
+                if (data.success) {
+                    clients = data.data;
+                    if (clients.length === 0) {
+                        container.innerHTML = '<p style="color: #666; text-align: center;">Нет клиентов. Добавьте первого!</p>';
+                    } else {
+                        container.innerHTML = `
+                            <table class="bm-table">
+                                <thead>
+                                    <tr>
+                                        <th>Имя</th>
+                                        <th>Телефон</th>
+                                        <th>Email</th>
+                                        <th>Визитов</th>
+                                        <th>Действия</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${clients.map(c => `
+                                        <tr>
+                                            <td>${c.name}</td>
+                                            <td>${c.phone}</td>
+                                            <td>${c.email || '—'}</td>
+                                            <td>${c.total_visits || 0}</td>
+                                            <td>
+                                                <button class="bm-btn bm-btn-primary" style="padding: 5px 10px;" onclick="editClient(${c.id})">✏️</button>
+                                                <button class="bm-btn bm-btn-danger" style="padding: 5px 10px;" onclick="deleteClient(${c.id})">🗑️</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                container.innerHTML = 'Ошибка загрузки';
+            }
+        }
+
+        window.showClientModal = function(id = null) {
+            currentClientId = id;
+            document.getElementById('clientModalTitle').innerText = id ? '✏️ Редактировать клиента' : '➕ Добавить клиента';
+            
+            if (id) {
+                const client = clients.find(c => c.id === id);
+                if (client) {
+                    document.getElementById('clientName').value = client.name;
+                    document.getElementById('clientPhone').value = client.phone;
+                    document.getElementById('clientEmail').value = client.email || '';
+                    document.getElementById('clientBirthDate').value = client.birth_date || '';
+                    document.getElementById('clientNotes').value = client.notes || '';
+                }
+            } else {
+                document.getElementById('clientName').value = '';
+                document.getElementById('clientPhone').value = '';
+                document.getElementById('clientEmail').value = '';
+                document.getElementById('clientBirthDate').value = '';
+                document.getElementById('clientNotes').value = '';
+            }
+            
+            document.getElementById('clientModal').style.display = 'block';
+        }
+
+        window.saveClient = async function() {
+            const data = {
+                name: document.getElementById('clientName').value,
+                phone: document.getElementById('clientPhone').value,
+                email: document.getElementById('clientEmail').value,
+                birth_date: document.getElementById('clientBirthDate').value,
+                notes: document.getElementById('clientNotes').value
+            };
+            
+            try {
+                const url = currentClientId 
+                    ? `/api/plugins/beautymaster/clients/${currentClientId}`
+                    : '/api/plugins/beautymaster/clients';
+                
+                const response = await fetch(url, {
+                    method: currentClientId ? 'PUT' : 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    hideModal('clientModal');
+                    loadClients();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ошибка сохранения');
+            }
+        }
+
+        window.deleteClient = async function(id) {
+            if (!confirm('Удалить клиента?')) return;
+            
+            try {
+                const response = await fetch(`/api/plugins/beautymaster/clients/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    loadClients();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ошибка удаления');
+            }
+        }
+
+        window.editClient = function(id) {
+            showClientModal(id);
+        }
+
+        // ==================== БРОНИРОВАНИЯ ====================
+        async function loadBookings() {
+            const container = document.getElementById('bookings-list');
+            container.innerHTML = 'Загрузка бронирований...';
+            
+            try {
+                const response = await fetch('/api/plugins/beautymaster/bookings');
+                if (response.status === 401) {
+                    checkAuth();
+                    return;
+                }
+                const data = await response.json();
+                
+                if (data.success) {
+                    bookings = data.data;
+                    if (bookings.length === 0) {
+                        container.innerHTML = '<p style="color: #666; text-align: center;">Нет бронирований</p>';
+                    } else {
+                        container.innerHTML = `
+                            <table class="bm-table">
+                                <thead>
+                                    <tr>
+                                        <th>Дата</th>
+                                        <th>Время</th>
+                                        <th>Клиент</th>
+                                        <th>Услуга</th>
+                                        <th>Статус</th>
+                                        <th>Действия</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${bookings.map(b => `
+                                        <tr>
+                                            <td>${b.date}</td>
+                                            <td>${b.time}</td>
+                                            <td>${b.client_name}</td>
+                                            <td>${b.service_name}</td>
+                                            <td>${b.status}</td>
+                                            <td>
+                                                <button class="bm-btn bm-btn-danger" style="padding: 5px 10px;" onclick="deleteBooking(${b.id})">🗑️</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                container.innerHTML = 'Ошибка загрузки';
+            }
+        }
+
+        window.showBookingModal = async function() {
+            try {
+                const [clientsRes, servicesRes] = await Promise.all([
+                    fetch('/api/plugins/beautymaster/clients'),
+                    fetch('/api/plugins/beautymaster/services')
+                ]);
+                
+                if (clientsRes.status === 401 || servicesRes.status === 401) {
+                    checkAuth();
+                    return;
+                }
+                
+                const clientsData = await clientsRes.json();
+                const servicesData = await servicesRes.json();
+                
+                let clientOptions = '<option value="">Выберите клиента</option>';
+                if (clientsData.success && clientsData.data) {
+                    clientsData.data.forEach(c => {
+                        clientOptions += `<option value="${c.id}">${c.name} (${c.phone})</option>`;
+                    });
+                }
+                
+                let serviceOptions = '<option value="">Выберите услугу</option>';
+                if (servicesData.success && servicesData.data) {
+                    servicesData.data.forEach(s => {
+                        serviceOptions += `<option value="${s.id}">${s.name} - ${s.price}₽ (${s.duration}мин)</option>`;
+                    });
+                }
+                
+                document.getElementById('bookingClient').innerHTML = clientOptions;
+                document.getElementById('bookingService').innerHTML = serviceOptions;
+                
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('bookingDate').value = today;
+                
+                await loadAvailableTime();
+                
+                document.getElementById('bookingModal').style.display = 'block';
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function loadAvailableTime() {
+            const date = document.getElementById('bookingDate').value;
+            if (!date) return;
+            
+            try {
+                const response = await fetch(`/api/plugins/beautymaster/availability?date=${date}`);
+                if (response.status === 401) {
+                    checkAuth();
+                    return;
+                }
+                const data = await response.json();
+                
+                let timeOptions = '<option value="">Выберите время</option>';
+                if (data.success && data.available_slots && data.available_slots.length > 0) {
+                    data.available_slots.forEach(slot => {
+                        timeOptions += `<option value="${slot}">${slot}</option>`;
+                    });
+                } else {
+                    timeOptions = '<option value="">Нет свободного времени</option>';
+                }
+                
+                document.getElementById('bookingTime').innerHTML = timeOptions;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        window.saveBooking = async function() {
+            const data = {
+                client_id: parseInt(document.getElementById('bookingClient').value),
+                service_id: parseInt(document.getElementById('bookingService').value),
+                date: document.getElementById('bookingDate').value,
+                time: document.getElementById('bookingTime').value,
+                notes: document.getElementById('bookingNotes').value
+            };
+            
+            if (!data.client_id || !data.service_id || !data.date || !data.time) {
+                alert('Заполните все поля');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/plugins/beautymaster/bookings', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    hideModal('bookingModal');
+                    loadBookings();
+                } else {
+                    alert('Ошибка: ' + (result.error || 'Неизвестная ошибка'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ошибка сохранения');
+            }
+        }
+
+        window.deleteBooking = async function(id) {
+            if (!confirm('Удалить бронирование?')) return;
+            
+            try {
+                const response = await fetch(`/api/plugins/beautymaster/bookings/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    loadBookings();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ошибка удаления');
+            }
+        }
+
+        document.getElementById('bookingDate')?.addEventListener('change', loadAvailableTime);
+
+        // ==================== ПРОФИЛЬ ====================
+        async function loadProfile() {
+            try {
+                const response = await fetch('/api/plugins/beautymaster/profile');
+                if (response.status === 401) {
+                    checkAuth();
+                    return;
+                }
+                const data = await response.json();
+                
+                if (data.success) {
+                    const p = data.data;
+                    document.getElementById('profile-form').innerHTML = `
+                        <div class="bm-form-group">
+                            <label>Название салона</label>
+                            <input type="text" id="salonName" value="${p.salon_name || ''}">
+                        </div>
+                        <div class="bm-form-group">
+                            <label>Телефон</label>
+                            <input type="text" id="salonPhone" value="${p.phone || ''}">
+                        </div>
+                        <div class="bm-form-group">
+                            <label>Адрес</label>
+                            <input type="text" id="salonAddress" value="${p.address || ''}">
+                        </div>
+                        <div class="bm-form-group">
+                            <label>Описание</label>
+                            <textarea id="salonDescription" rows="3">${p.description || ''}</textarea>
+                        </div>
+                        <button class="bm-btn bm-btn-primary" onclick="saveProfile()">Сохранить</button>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        window.saveProfile = async function() {
+            try {
+                const response = await fetch('/api/plugins/beautymaster/profile', {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        salon_name: document.getElementById('salonName').value,
+                        phone: document.getElementById('salonPhone').value,
+                        address: document.getElementById('salonAddress').value,
+                        description: document.getElementById('salonDescription').value
+                    })
+                });
+                
+                if (response.ok) {
+                    alert('Профиль сохранен');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ошибка сохранения');
+            }
+        }
+
+        // ==================== РАСПИСАНИЕ ====================
+        async function loadSchedule() {
+            try {
+                const response = await fetch('/api/plugins/beautymaster/schedule');
+                if (response.status === 401) {
+                    checkAuth();
+                    return;
+                }
+                const data = await response.json();
+                
+                if (data.success) {
+                    const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+                    let html = '';
+                    
+                    let schedule = data.data;
+                    if (!schedule || schedule.length === 0) {
+                        schedule = [];
+                        for (let i = 0; i < 7; i++) {
+                            schedule.push({
+                                day_of_week: i,
+                                is_working: i < 5,
+                                start_time: i < 5 ? '09:00' : null,
+                                end_time: i < 5 ? '18:00' : null
+                            });
+                        }
+                    }
+                    
+                    schedule.forEach((s, index) => {
+                        html += `
+                            <div class="bm-form-group" style="display: flex; gap: 10px; align-items: center; margin-bottom: 15px; padding: 10px; background: #4b4b4b; border-radius: 5px;">
+                                <input type="checkbox" id="day_${index}" ${s.is_working ? 'checked' : ''} onchange="toggleDay(${index})" style="width: 20px; height: 20px;">
+                                <label style="width: 120px; font-weight: bold;" for="day_${index}">${days[s.day_of_week]}</label>
+                                <input type="time" id="start_${index}" value="${s.start_time || '09:00'}" ${!s.is_working ? 'disabled' : ''} style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 100px;">
+                                <span style="font-weight: bold;">—</span>
+                                <input type="time" id="end_${index}" value="${s.end_time || '18:00'}" ${!s.is_working ? 'disabled' : ''} style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 100px;">
+                            </div>
+                        `;
+                    });
+                    
+                    html += '<button class="bm-btn bm-btn-primary" onclick="saveSchedule()" style="margin-top: 10px;">💾 Сохранить расписание</button>';
+                    document.getElementById('schedule-form').innerHTML = html;
+                }
+                
+                // Загружаем статус и статистику бота
+                loadBotStatus();
+                loadBotStats();
+                
+            } catch (error) {
+                console.error('Error loading schedule:', error);
+                document.getElementById('schedule-form').innerHTML = '<p style="color: red;">Ошибка загрузки расписания</p>';
+            }
+        }
+
+        window.toggleDay = function(index) {
+            const checkbox = document.getElementById(`day_${index}`);
+            const start = document.getElementById(`start_${index}`);
+            const end = document.getElementById(`end_${index}`);
+            
+            if (start && end) {
+                start.disabled = !checkbox.checked;
+                end.disabled = !checkbox.checked;
+            }
+        }
+
+        window.saveSchedule = async function() {
+            const schedule = [];
+            
+            for (let i = 0; i < 7; i++) {
+                const checkbox = document.getElementById(`day_${i}`);
+                if (!checkbox) continue;
+                
+                const day = {
+                    day_of_week: i,
+                    is_working: checkbox.checked
+                };
+                
+                if (day.is_working) {
+                    const startInput = document.getElementById(`start_${i}`);
+                    const endInput = document.getElementById(`end_${i}`);
+                    day.start_time = startInput ? startInput.value : '09:00';
+                    day.end_time = endInput ? endInput.value : '18:00';
+                }
+                
+                schedule.push(day);
+            }
+            
+            try {
+                const response = await fetch('/api/plugins/beautymaster/schedule', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(schedule)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('✅ Расписание сохранено');
+                    loadSchedule();
+                } else {
+                    alert('❌ Ошибка: ' + (result.error || 'Неизвестная ошибка'));
+                }
+            } catch (error) {
+                console.error('Error saving schedule:', error);
+                alert('❌ Ошибка сохранения');
+            }
+        }
+
+        // ==================== БОТ ====================
+        window.toggleTokenVisibility = function() {
+            const input = document.getElementById('botToken');
+            tokenVisible = !tokenVisible;
+            input.type = tokenVisible ? 'text' : 'password';
+        }
+
+        window.clearToken = function() {
+            if (confirm('Очистить токен? После этого бот перестанет работать до ввода нового токена.')) {
+                document.getElementById('botToken').value = '';
+                document.getElementById('botToken').type = 'text';
+                tokenVisible = true;
+            }
+        }
+
+        async function loadBotStatus() {
+            try {
+                const response = await fetch('/api/plugins/beautymaster/bot-status');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const statusDiv = document.getElementById('bot-status');
+                    const config = data.data;
+                    
+                    if (config.running) {
+                        statusDiv.innerHTML = '<div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 5px;">✅ Бот запущен и работает</div>';
+                    } else if (config.enabled && config.configured) {
+                        statusDiv.innerHTML = '<div style="background: #fff3cd; color: #856404; padding: 10px; border-radius: 5px;">⚠️ Бот настроен, но не запущен. Нажмите "Перезапустить"</div>';
+                    } else if (config.configured) {
+                        statusDiv.innerHTML = '<div style="background: #fff3cd; color: #856404; padding: 10px; border-radius: 5px;">⚠️ Бот отключен в настройках</div>';
+                    } else {
+                        statusDiv.innerHTML = '<div style="background: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px;">❌ Бот не настроен. Введите токен и ID</div>';
+                    }
+                    
+                    document.getElementById('botToken').value = config.configured ? '********' : '';
+                    document.getElementById('adminId').value = config.admin_id || '';
+                    document.getElementById('botEnabled').checked = config.enabled;
+                }
+            } catch (error) {
+                console.error('Error loading bot status:', error);
+            }
+        }
+
+        async function loadBotStats() {
+            try {
+                const response = await fetch('/api/plugins/beautymaster/bot-stats');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const stats = data.data;
+                    document.getElementById('bot-stats-content').innerHTML = `
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div><strong>👥 Клиентов в Telegram:</strong> ${stats.total_telegram_clients}</div>
+                            <div><strong>📅 Записей через бота:</strong> ${stats.telegram_bookings}</div>
+                            <div><strong>🔔 Активных подписчиков:</strong> ${stats.active_subscribers}</div>
+                            <div><strong>🤖 Статус:</strong> ${stats.bot_running ? '✅ Работает' : '⏹ Остановлен'}</div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading bot stats:', error);
+            }
+        }
+
+        window.saveBotSettings = async function() {
+            const tokenInput = document.getElementById('botToken');
+            const adminId = document.getElementById('adminId').value;
+            const enabled = document.getElementById('botEnabled').checked;
+            
+            let token = tokenInput.value;
+            
+            const data = {};
+            
+            if (token && token !== '********') {
+                data.telegram_bot_token = token;
+                console.log('Отправляем новый токен');
+            }
+            
+            data.telegram_admin_id = adminId;
+            data.telegram_notifications = enabled;
+            
+            console.log('Отправка данных:', { 
+                hasNewToken: !!data.telegram_bot_token,
+                adminId, 
+                enabled 
+            });
+            
+            try {
+                const response = await fetch('/api/plugins/beautymaster/profile', {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert('✅ Настройки сохранены');
+                    
+                    if (data.telegram_bot_token) {
+                        tokenInput.value = '********';
+                        tokenInput.type = 'password';
+                        tokenVisible = false;
+                    }
+                    
+                    loadBotStatus();
+                    loadBotStats();
+                    
+                    if (enabled && (data.telegram_bot_token || token === '********')) {
+                        setTimeout(() => {
+                            restartBot();
+                        }, 1000);
+                    }
+                } else {
+                    alert('❌ Ошибка сохранения: ' + (result.error || 'Неизвестная ошибка'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Ошибка сохранения');
+            }
+        }
+
+        window.testBot = async function() {
+            const tokenInput = document.getElementById('botToken');
+            const adminId = document.getElementById('adminId').value;
+            
+            let token = tokenInput.value;
+            
+            if (token === '********') {
+                token = 'USE_EXISTING';
+            }
+            
+            if (!adminId) {
+                alert('❌ Введите ID администратора');
+                return;
+            }
+            
+            console.log('Тестирование бота...');
+            
+            try {
+                const response = await fetch('/api/plugins/beautymaster/test-bot', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({token, admin_id: adminId})
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('✅ Тестовое сообщение отправлено! Проверьте Telegram.');
+                } else {
+                    alert('❌ Ошибка: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Ошибка подключения');
+            }
+        }
+
+        window.restartBot = async function() {
+            try {
+                const response = await fetch('/api/plugins/beautymaster/bot-restart', {
+                    method: 'POST'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('✅ Бот перезапущен');
+                    loadBotStatus();
+                } else {
+                    alert('❌ Ошибка: ' + (result.error || 'Неизвестная ошибка'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Ошибка перезапуска');
+            }
+        }
+
+        // ==================== ОБЩИЕ ФУНКЦИИ ====================
+        window.hideModal = function(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('bm-modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // ==================== ЗАПУСК ====================
+        checkAuth();
+    </script>
+</div>
