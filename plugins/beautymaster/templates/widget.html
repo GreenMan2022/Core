@@ -1,0 +1,26 @@
+<script>
+function testBot(token, adminID) {
+    // Check if token and adminID are provided
+    if (!token || !adminID) {
+        console.error('Token and Admin ID must be provided.');
+        return;
+    }
+    
+    // Token validation logic (example)
+    const isValidToken = validateToken(token);
+    if (!isValidToken) {
+        console.error('Invalid token provided.');
+        return;
+    }
+    
+    // Continue with the bot operation
+    console.log('Bot is operating with valid token and admin ID.');
+    // ... your bot logic here ...
+}
+
+function validateToken(token) {
+    // Add token validation logic here
+    // This is a placeholder, replace with actual validation checking
+    return token.length === 32; // Example: token must be 32 characters long
+}
+</script>
